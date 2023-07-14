@@ -516,11 +516,14 @@ class SemanticSegmentation(BasePipeline):
             self.ckpt.restore(ckpt_path).expect_partial()
             log.info("Restored from {}".format(ckpt_path))
         else:
-            self.ckpt.restore(self.manager.latest_checkpoint)
+            if is_resume:
+                self.ckpt.restore(self.manager.latest_checkpoint)
 
-            if self.manager.latest_checkpoint and is_resume:
-                log.info("Restored from {}".format(
-                    self.manager.latest_checkpoint))
+                if self.manager.latest_checkpoint:
+                    log.info("Restored from {}".format(
+                        self.manager.latest_checkpoint))
+                else:
+                    log.info("Could not load latest checkpoint. Initializing from scratch.")
             else:
                 log.info("Initializing from scratch.")
 
