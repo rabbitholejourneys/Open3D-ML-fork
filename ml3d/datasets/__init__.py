@@ -29,3 +29,9 @@ __all__ = [
     'SemSegSpatiallyRegularSampler', 'Argoverse', 'Scannet', 'SunRGBD',
     'MatterportObjects'
 ]
+
+try:
+    from .las_dataset import LasDataset
+    __all__.append('LasDataset')
+except:
+    print("LasDataset not available")
